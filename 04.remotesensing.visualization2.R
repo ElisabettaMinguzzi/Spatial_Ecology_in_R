@@ -28,5 +28,35 @@ plot(stacksent, col=cl)
 dev.off()
 plot(stacksent[[4]], col=cl)
 
+# Exercise : plot in a multiframe the bands with different color ramps 
+c2 <- colorRampPalette(c("dodgerblue3", "blue4", "cyan3")) (100)
+plot(b2, col=c2)
+
+c3 <- colorRampPalette(c("chartreuse4", "palegreen", "forestgreen")) (100)
+plot(b3, col=c3)
+
+c4 <- colorRampPalette(c("brown2", "firebrick4", "black")) (100)
+plot(b4, col=c4)
+
+c8 <- colorRampPalette (c("black", "gold1", "oldlace")) (100)
+plot(b8, col=c8)
+
+par(mfrow = c(2,2))
+plot(b2,col=c2)
+plot(b3, col=c3)
+plot(b4, col=c4)
+plot(b8, col=c8)
+
+# RGB space
+# stacksent : 
+band2  blue element 1, stacksent[[1]]
+band3 green element 2, stacksent[[2]]
+band4 red element 3, stacksent[[3]]
+band8 nir element 4, stacksent[[4]]
+im.plotRGB(stacksent, r=3, g=2, b=1)
+
+
+
+
 
 
