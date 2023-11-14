@@ -43,5 +43,12 @@ dif2 = g2000[[1]] - g2015[[1]]
 plot(dif2, col=clg)        # instead, we can write dif2 = stackg[[1]] - stackg[[4]]
 # in the middle, greenland is reaching much higher temperatures 
 
+# We're gonna put the image of 2000 in the R channel, the second one in the G channel and the last one in the B channel. 
+# If we have high values in 2000 they'll become red, if we have high values in 2005 they'll become green, ecc. 
+# Exercise: make RGB plot using different years 
+im.plotRGB(stackg, r=1, g=2, b=3)
+
+
+
 
 
