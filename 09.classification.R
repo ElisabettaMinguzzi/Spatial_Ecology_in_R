@@ -45,9 +45,11 @@ tabout
 
 library(ggplot2)
 # final output 
-p1 <- ggplot(tabout, aes(x=class, y=y1992, color=class) + geom_bar(stat="identity", fill="white")
+p1 <- ggplot(tabout, aes(x=class, y=y1992, color=class) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
+p2 <- ggplot(tabout, aes(x=class, y=y2006, color=class) + geom_bar(stat="identity", fill="white") + ylim(c(0,100))
+p1 + p2
 
-
+        
 
 
 
