@@ -19,3 +19,41 @@ In this case, you do not:
 ```{r,eval=FALSE}
 2 + 3
 ```
+
+Using proper packages; the imageRy package has been built at Alma Mater for learning remote sensing:
+```{r,eval=TRUE}
+library(imageRy)
+```
+
+Let's import some data by listing these in imageRy:
+```{r,eval=TRUE}
+imlist()
+```
+
+
+Importing the Mato grosso area image without warnings: 
+```{r,eval=TRUE, warning=FALSE}
+mato1992 <- im.import("matogrosso_15_1992219_lrg.jpg")
+```
+
+Making a new plot of the Mato Grosso area with NIR on top of the green component of the RGB space: 
+```{r,eval=TRUE}
+im.plotRGB(mato1992, r=2, g=1, b=3)
+```
+
+Plotting several images altogether: 
+```{r,eval=TRUE}
+par(mfrow=c(2,2))
+im.plotRGB(mato1992, r=1, g=2, b=3)
+im.plotRGB(mato1992, r=2, g=1, b=3)
+im.plotRGB(mato1992, r=3, g=2, b=1)
+im.plotRGB(mato1992, r=1, g=3, b=2)
+```
+
+Calculating spectral indices: 
+```{r,eval=TRUE}
+library(viridis)
+dvi <- mato1992[[1]]-mato1992[[2]]
+viridisc <- colorRampPalette(viridis(7)) (255)
+plot(dvi, col=viridisc)
+```
