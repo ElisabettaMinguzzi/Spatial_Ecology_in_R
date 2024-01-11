@@ -53,7 +53,13 @@ im.plotRGB(mato1992, r=1, g=3, b=2)
 Calculating spectral indices: 
 ```{r,eval=TRUE}
 library(viridis)
+library(terra)
 dvi <- mato1992[[1]]-mato1992[[2]]
 viridisc <- colorRampPalette(viridis(7)) (255)
 plot(dvi, col=viridisc)
+```
+Calculating variability:
+```{r,eval=TRUE}
+sd5 <- focal(mato1992[[1]], matrix(1/25,5,5), fun=sd)
+plot(sd5, col=viridisc)
 ```
