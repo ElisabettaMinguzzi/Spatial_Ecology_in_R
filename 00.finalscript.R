@@ -653,7 +653,30 @@ plot(sdstack, col=viridisc)
 #the sd represents the amount of variability in a certain moving window; the function focal() can be used to calculate other statistics, like mean, etc., on a single layer.
 
 #------------------------------------------
+12_pluto_final_example.R
 
+setwd("~/Documents/lectures_and_seminars/images")
+
+library(terra)
+library(imageRy)
+library(viridis)
+
+pluto <- rast("pluto_New_Horizons_spacecraft.png")
+plot(pluto)
+plotRGB(pluto, 3, 2, 1)
+plutovar <- focal(pluto, matrix(1/25, 5, 5), fun=sd)
+
+viridisc <- colorRampPalette(viridis(7))(255)
+plot(plutovar[[1]], col=viridisc)
+
+makoc <- colorRampPalette(mako(7))(255)
+plot(plutovar[[1]], col=makoc)
+
+par(mfrow=c(1,2))
+plot(pluto)
+plotRGB(pluto, 3, 2, 1)
+plot(plutovar[[1]], col=viridisc)
+plot(plutovar[[1]], col=makoc)
 
 
 
