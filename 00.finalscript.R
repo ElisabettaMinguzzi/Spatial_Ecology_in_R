@@ -431,6 +431,10 @@ par(mfrow=c(2,1))
 plot(g2000, col=clg)
 plot(g2015,col=clg)
 
+# stacking the data
+stackg <- c(g2000, g2005, g2010, g2015)
+plot(stackg, col=clg)
+
 # exercise: make the difference between the first and the final elements of the stack 
 dif2 = g2000[[1]] - g2015[[1]] 
 plot(dif2, col=clg)        # instead, we can write dif2 = stackg[[1]] - stackg[[4]]
