@@ -11,7 +11,7 @@ plot(soilmoisture2023)
 # there are two elements, let's use the first one!
 plot(soilmoisture2023[[1]])
 
-colorRampPalette(c("red", "orange", "yellow")) (100)
+cl <- colorRampPalette(c("red", "orange", "yellow")) (100)
 
 # crop the image 
 ext <- c(22,26,55,57)     # min longitude, max longitude, min latitude, max latitude
