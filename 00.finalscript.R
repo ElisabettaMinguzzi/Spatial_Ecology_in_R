@@ -623,7 +623,7 @@ sent <- im.import("sentinel.png")
 pairs(sent)
 # sentinel_2 and sentinel_3 are correlated with each other very well. Sentinel_4 is just a control layer, we can ignore it. 
 # perform PCA on sent 
-sentpc <- im.pca2(sent)
+sentpc <- im.pca(sent)
 # we can isolate the first component 
 sentpc 
 pc1 <- sentpc$PC1
