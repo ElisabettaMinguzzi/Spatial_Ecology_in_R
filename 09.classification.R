@@ -2,7 +2,7 @@
 
 library(terra)
 library(imageRy)
-imlist()
+im.list()
 
 sun <- im.import("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
 sunc <- im.classify(sun, num_clusters=3)
