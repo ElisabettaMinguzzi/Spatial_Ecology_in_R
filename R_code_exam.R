@@ -167,7 +167,7 @@ plot(fc_april_class[[1]], main = "Classes from April", type = "classes", levels 
 fc_may_class <- im.classify(fc_may_ext, num_clusters=3)
 plot(fc_may_class[[1]], main = "Classes from May", type = "classes", levels = class_names)
 
-fc_june_class <- im.classify(fc_june_ext, num_clusters=3)
+fc_june_class <- im.classify(fc_june, num_clusters=3)
 plot(fc_june_class[[1]], main= "Classes from May", type = "classes", levels = class_names)
 
 par(mfrow=c(3,1))
@@ -176,7 +176,22 @@ plot(fc_may_class[[1]], main = "May Classes", type = "classes", levels = class_n
 plot(fc_june_class[[1]], main = "June Classes", type = "classes", levels = class_names)
 
 
+# Calculation of the proportion of the classes 
+fapril <- freq(fc_april_class[[1]])
+fapril
+fmay <- freq(fc_may_class[[1]])
+fmay
+fjune <- freq(fc_june_class[[1]])
+fjune
 
+# Total number of pixels 
+totpixels <- ncell(fc_april_class[[1]])
+totpixels   # It's the same also for May and June, of course
+
+# Percentage of the classes
+papril <- fapril * 100 / totpixels    # April percentages : fields = 48,1% , water = 11,1% ,  soil/cities = 40,9%
+pmay <- fmay * 100 / totpixels        # May percentages : fields = 57,9% , water = 16% , soil/cities = 26,1%
+pjune <- fjune * 100 / totpixels      # June percentages : fields = 43,6% , water = 10,3% , soil/cities = 46,1%
 
 
 
