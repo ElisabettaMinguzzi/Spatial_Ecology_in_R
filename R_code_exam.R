@@ -193,14 +193,98 @@ papril <- fapril * 100 / totpixels    # April percentages : fields = 48,1% , wat
 pmay <- fmay * 100 / totpixels        # May percentages : fields = 57,9% , water = 16% , soil/cities = 26,1%
 pjune <- fjune * 100 / totpixels      # June percentages : fields = 43,6% , water = 10,3% , soil/cities = 46,1%
 
+# Let's build a barplot representing the frequencies of the classes in the three months 
+class <- c("fields", "water", "soil/cities")
+april <- c(48, 11, 41)
+may <- c(58, 16, 26)
+june <- c(44, 10, 46)
+
+tabout <- data.frame(class, april, may, june)
+tabout
+
+p1 <- ggplot(tabout, aes(x=class, y=april, fill = class)) + 
+  geom_bar(stat="identity", color = "black") + 
+  ggtitle("Land in April") + xlab("Class") + ylab("Values") +
+  geom_text(aes(label=april), vjust=2, color="black", size=4.5) + 
+  scale_fill_brewer(palette="Pastel2") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5)) + ylim(c(0,60))
+
+p2 <- ggplot(tabout, aes(x=class, y=may, fill = class)) + 
+  geom_bar(stat="identity", color = "black") + 
+  ggtitle("Land in May") + xlab("Class") + ylab("Values") +
+  geom_text(aes(label=may), vjust=2, color="black", size=4.5) + 
+  scale_fill_brewer(palette="Pastel2") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5)) + ylim(c(0,60))
+
+p3 <- ggplot(tabout, aes(x=class, y=june, fill = class)) + 
+  geom_bar(stat="identity", color = "black") + 
+  ggtitle("Land in June") + xlab("Class") + ylab("Values") +
+  geom_text(aes(label=june), vjust=2, color="black", size=4.5) + 
+  scale_fill_brewer(palette="Pastel2") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5)) + ylim(c(0,60))
+
+p1+p2+p3
+
+df2 <- data.frame(month=rep(c("april", "may", "june"), each=3), 
+       classes=c("fields", "soil/cities", "water"), 
+       percentages=c(48,41,11,58,26,16,44,46,10))
+
+# Let's build a stacked barchart 
+
+ggplot(data=df2, aes(x=classes, y=percentages, fill=month)) +
+  geom_bar(stat="identity", color = "black")+
+  geom_text(aes(label=percentages), vjust=0.5, color="black",
+  position = position_stack(vjust =0.5), size=4.5)+
+  scale_fill_brewer(palette="Pastel2") + 
+  ggtitle("Change in land classes") + xlab("Class") + ylab("Values")+
+  theme_minimal()+
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+
+# Combined barchart 
+
+ggplot(data=df2, aes(x=classes, y=percentages, fill=month)) +
+  geom_bar(stat="identity", color = "black", position=position_dodge())+
+  geom_text(aes(label=percentages), vjust=1.6, color="black",
+  position = position_dodge(0.9), size=4.5)+
+  scale_fill_brewer(palette="Pastel2") + 
+  ggtitle("Change in land classes") + xlab("Class") + ylab("Values")+
+  theme_minimal()+
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))     
+
+# We can clearly see that May had the highest percentage of the fields class, in spite of the flooding, which obviously increased the percentage of water, but the precipitations could have also aided the vegetation far away from the rivers. Furthermore, there is little difference between April and June. 
+
+dev.off()
+
+# Variability assessment through the moving window technique 
+
+# 3x3 window --> the window stops for every pixel and calculates a summary statistics for the neighbourhood and then moves on to the next pixel. The standard deviation is calculated for all values within this window and assigned to the corresponding centre pixel of a new raster file. In the new file each pixel contains now information about its sorroundings.
+
+c8 <- colorRampPalette(c("black", "gold1", "oldlace")) (100)
 
 
+# To decide on which layer we should calculate the sd, we should use PCA.
 
 
+sd3_april <- focal(fc_april_ext[[1]], matrix(1/9,3,3), fun=sd)
+plot(sd3_april)
+plot(sd3_april, col=c8, main = "Variability of the land in April (NIR)", cex.main = .8) 
 
+sd3_may <- focal(fc_may_ext[[1]], matrix(1/9,3,3), fun=sd)
+plot(sd3_may)
+plot(sd3_may, col=c8, main = "Variability of the land in May (NIR)", cex.main = .8) 
 
+sd3_june <- focal(fc_june[[1]], matrix(1/9,3,3), fun=sd)
+plot(sd3_june)
+plot(sd3_june, col=c8, main = "Variability of the land in June (NIR)", cex.main = .8) 
 
+par(mfrow=c(3,1))
+plot(sd3_april, col=c8, main = "Variability of the land in April (NIR)", cex.main = .8) 
+plot(sd3_may, col=c8, main = "Variability of the land in May (NIR)", cex.main = .8) 
+plot(sd3_june, col=c8, main = "Variability of the land in June (NIR)", cex.main = .8) 
 
-
-
+pcaapril <- im.pca(fc_april_ext)
+pcaapril 
 
