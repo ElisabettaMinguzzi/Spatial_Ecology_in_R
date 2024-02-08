@@ -111,6 +111,8 @@ fc_april_ext <- crop(fc_april, ext)
 tc_may_ext <- crop(tc_may, ext)
 fc_may_ext <- crop(fc_may, ext)
 
+dev.off() 
+
 # Plot the difference in the NIR band reflectance from April and the May images
 diff_NIR <- fc_april_ext[[1]] - fc_may_ext[[1]]
 plot(diff_NIR)
@@ -150,7 +152,7 @@ plot(ndviapril, col=cndvi, main="NDVI of April", cex.main=.8)
 plot(ndvimay, col=cndvi, main="NDVI of May", cex.main=.8) 
 plot(ndvijune, col=cndvi, main="NDVI of June", cex.main=.8)
 stacksent <- c(ndviapril, ndvimay, ndvijune)    
-plot(stacksent, col=cndvi, main= "NDVI")
+plot(stacksent, col=cndvi, main= c("NDVI of April", "NDVI of May", "NDVI of June"))
 # The NDVI obviously decreased in the flooded area to 0 or negative values, while they actually increased a bit in other parts of the fields, but this could be just due to a slightly greater cloud coverage in the april imagery. In June there was a 0.5 increase in the NDVI in the former flooded areas, which fluctuated around the 0 value, indicating that the soil there was bare.
 
 pairs(stacksent, main="NDVI pairs plot")       
@@ -161,7 +163,7 @@ pairs(stacksent, main="NDVI pairs plot")
 # CLASSIFICATION OF THE LAND
 
 fc_april_class <- im.classify(fc_april_ext, num_clusters=3)
-class_names <- c("fields", "water", "soil/cities")   # DIPENDE DAI COLORI CHE TI ESCONO
+class_names <- c("fields", "water", "soil/cities")  
 plot(fc_april_class[[1]], main = "Classes from April", type = "classes", levels = class_names)
 
 fc_may_class <- im.classify(fc_may_ext, num_clusters=3)
@@ -189,9 +191,12 @@ totpixels <- ncell(fc_april_class[[1]])
 totpixels   # It's the same also for May and June, of course
 
 # Percentage of the classes
-papril <- fapril * 100 / totpixels    # April percentages : fields = 48,1% , water = 11,1% ,  soil/cities = 40,9%
-pmay <- fmay * 100 / totpixels        # May percentages : fields = 57,9% , water = 16% , soil/cities = 26,1%
-pjune <- fjune * 100 / totpixels      # June percentages : fields = 43,6% , water = 10,3% , soil/cities = 46,1%
+papril <- fapril * 100 / totpixels   
+papril                                # April percentages : fields = 48,1% , water = 11,1% ,  soil/cities = 40,9%
+pmay <- fmay * 100 / totpixels       
+pmay                                  # May percentages : fields = 57,9% , water = 16% , soil/cities = 26,1%
+pjune <- fjune * 100 / totpixels 
+pjune                                 # June percentages : fields = 43,6% , water = 10,3% , soil/cities = 46,1%
 
 # Let's build a barplot representing the frequencies of the classes in the three months 
 class <- c("fields", "water", "soil/cities")
@@ -261,30 +266,73 @@ dev.off()
 # Variability assessment through the moving window technique 
 
 # 3x3 window --> the window stops for every pixel and calculates a summary statistics for the neighbourhood and then moves on to the next pixel. The standard deviation is calculated for all values within this window and assigned to the corresponding centre pixel of a new raster file. In the new file each pixel contains now information about its sorroundings.
+# Let's first calculate the sd on the NIR band
 
-c8 <- colorRampPalette(c("black", "gold1", "oldlace")) (100)
-
-
-# To decide on which layer we should calculate the sd, we should use PCA.
-
+clsd <- colorRampPalette(c( "olivedrab", "floralwhite", "cornsilk")) (100)
 
 sd3_april <- focal(fc_april_ext[[1]], matrix(1/9,3,3), fun=sd)
 plot(sd3_april)
-plot(sd3_april, col=c8, main = "Variability of the land in April (NIR)", cex.main = .8) 
+plot(sd3_april, col=clsd, main = "Variability of the land in April (NIR)", cex.main = .8) 
 
 sd3_may <- focal(fc_may_ext[[1]], matrix(1/9,3,3), fun=sd)
 plot(sd3_may)
-plot(sd3_may, col=c8, main = "Variability of the land in May (NIR)", cex.main = .8) 
+plot(sd3_may, col=clsd, main = "Variability of the land in May (NIR)", cex.main = .8) 
 
 sd3_june <- focal(fc_june[[1]], matrix(1/9,3,3), fun=sd)
 plot(sd3_june)
-plot(sd3_june, col=c8, main = "Variability of the land in June (NIR)", cex.main = .8) 
+plot(sd3_june, col=clsd, main = "Variability of the land in June (NIR)", cex.main = .8) 
 
 par(mfrow=c(3,1))
-plot(sd3_april, col=c8, main = "Variability of the land in April (NIR)", cex.main = .8) 
-plot(sd3_may, col=c8, main = "Variability of the land in May (NIR)", cex.main = .8) 
-plot(sd3_june, col=c8, main = "Variability of the land in June (NIR)", cex.main = .8) 
+plot(sd3_april, col=clsd, main = "Variability of the land in April (NIR)", cex.main = .8) 
+plot(sd3_may, col=clsd, main = "Variability of the land in May (NIR)", cex.main = .8) 
+plot(sd3_june, col=clsd, main = "Variability of the land in June (NIR)", cex.main = .8) 
 
-pcaapril <- im.pca(fc_april_ext)
-pcaapril 
+
+library(RStoolbox)
+pcaapril <- rasterPCA(fc_april_ext)
+summary(pcaapril$model)     # PC1 represents the 75% of the variability, while PC2 represents the 24%. PC3 contains much lesser information. 
+loadings(pcaapril$model)    # The NIR band contributes for the total of the PC1, the red band is correlated most with PC2, while the green one with PC3. 
+
+pcmay <- rasterPCA(fc_may_ext)
+summary(pcmay$model)     # PC1 represents the 74% of the variability, while PC2 represents the 25%. 
+loadings(pcmay$model)    # The NIR band is almost exclusively correlated with PC1.
+
+pcjune <- rasterPCA(fc_june)
+summary(pcjune$model)     # The PC1 represents the 71% of the variability, while PC2 represents the 28%.
+loadings(pcjune$model)    # The same as above.
+
+# It's reasonable that I calculate the sd in a 3x3 moving window on the PC1, since it's the most important PC. 
+
+
+pc1april <- pcaapril$map$PC1
+pc1aprilsd3 <- focal(pc1april, matrix(1/9, 3, 3), fun=sd)
+plot(pc1aprilsd3, col=clsd, main="Variability in June (PC1)")
+
+pc1may <- pcmay$map$PC1
+pc1maysd3 <- focal(pc1may, matrix(1/9, 3, 3), fun=sd)
+plot(pc1maysd3, col=clsd, main="Variability in May (PC1)")
+
+pc1june <- pcjune$map$PC1
+pc1junesd3 <- focal(pc1june, matrix(1/9, 3, 3), fun=sd)
+plot(pc1junesd3, col=clsd, main="Variability in June (PC1)")
+
+
+# Stack them all together to assess variability
+sdstack <- c(sd3_april, sd3_may, sd3_june, pc1aprilsd3, pc1maysd3, pc1junesd3)
+names(sdstack) <- c("April sd3", "May sd3", "June sd3", "PC1 April sd3", "PC1 May sd3", "PC1 June sd3")
+plot(sdstack, col=clsd)
+
+# The biggest variability is found along the streets and by cities and at the border between the coast and the sea, where the variability is obviously null. 
+# The three months have similar variability, if it weren't for the values corresponding to the flooded areas in May, where the water made those quite homogeneous, while the variability at the edge between the flooded fields and the rest of the area increased. 
+# Moreover, the difference between the sd calculated on the NIR band and one calculated on the PC1 is not so noticeable. 
+
+
+
+
+
+
+
+
+
+
 
