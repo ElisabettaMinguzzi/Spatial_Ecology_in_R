@@ -1,4 +1,4 @@
-# This R project aims at analysing the impact that the Emilia-Romagna flooding of May 2023 had on the land in the Province of Ravenna. To do this, we're going to assess the differences in soil water index and vegetation cover from the end of April 2023 to the end of May 2023. 
+# This R project aims at analysing the impact that the Emilia-Romagna flooding of May 2023 had on the land in the Province of Ravenna. To do this, we're going to assess the differences in soil water index and vegetation cover from the end of April 2023 to the end of May 2023, and from May 2023 to June 2023.
 
 # First, we're going to import some imagery from Copernicus relative to swi
 
