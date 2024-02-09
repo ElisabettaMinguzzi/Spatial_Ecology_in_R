@@ -10,7 +10,7 @@ library(ggplot2)
 library(imageRy)
 library(patchwork)
 
-# Setting the working directory and importing the downloaded data from Copernicus 
+# Setting the working directory, importing and cropping the downloaded data from Copernicus 
 setwd("C:/Users/elisa/OneDrive/Documents/Scienze Naturali/Spatial ecology in R/Exam Project")
 swi_april <- rast("soilwaterindex_april.nc")
 swi_may <- rast("soilwaterindex_may.nc")
@@ -22,7 +22,7 @@ cl <- colorRampPalette(c("yellowgreen", "violetred", "plum1")) (100)
 plot(swi_aprilcrop, col=cl)
 ext <- c(11.5,12.5,44,45)
 swi_aprilcrop2 <- crop(swi_aprilcrop, ext)
-plot(swi_aprilcrop2, col=cl)
+plot(swi_aprilcrop2, col=cl, main="Soil Water Index in April")
 
 plot(swi_may)
 plot(swi_may$SWI_005)
@@ -31,7 +31,7 @@ swi_maycrop <- crop(swi_may$SWI_005, ext)
 plot(swi_maycrop, col=cl)
 ext <- c(11.5,12.5,44,45)
 swi_maycrop2 <- crop(swi_maycrop, ext)
-plot(swi_maycrop2, col=cl)
+plot(swi_maycrop2, col=cl, main="Soil Water Index in May")
 
 par(mfrow=c(1,2))
 plot(swi_aprilcrop2, col=cl, main="SWI_005 in April")
@@ -39,7 +39,7 @@ plot(swi_maycrop2, col=cl, main="SWI_005 in May")
 
 # Check the difference in Soil Moisture Index 
 diff_swi <- swi_maycrop2 - swi_aprilcrop2
-plot(diff_swi, col=cl)    # From April to May the SWI decreased in value in the province of Ferrara, while the province of Ravenna saw a big increase. 
+plot(diff_swi, col=cl, main="Variation in SWI")    # From April to May the SWI decreased in value in the province of Ferrara, while the province of Ravenna saw a big increase. 
 
 
 # Now let's analyse the impact on vegetation cover. The vegetation cover is mainly due to an agricultural land use.
