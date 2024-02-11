@@ -125,7 +125,9 @@ plot(diff_NIR2)
 install.packages("RColorBrewer")
 library(RColorBrewer)
 cl <- brewer.pal(8,"YlOrRd")
-plot(diff_NIR, col=cl)   # The reflectance in the NIR band decreased a lot in May in the areas that got flooded, which means that the vegetation was entirely covered by water.
+plot(diff_NIR, col=cl)  
+
+# The reflectance in the NIR band decreased a lot in May in the areas that got flooded, which means that the vegetation was entirely covered by water.
 
 plot(diff_NIR2, col=cl)   # The reflectance in the NIR increased again in the former flooded areas, which means that they dried off, and at the rivers' mouths due to sediments and especially vegetation matter being released in the sea; while it decreased somewhat homogeneously everywhere else, and this could be due to the fact that the climate got hotter and drier and the vegetation suffered in this sense.   
 
@@ -147,12 +149,12 @@ plot(dvijune, col=cdvi)
 ndviapril = dviapril/(fc_april_ext[[1]] + fc_april_ext[[2]])
 ndvimay = dvimay/(fc_may_ext[[1]] + fc_may_ext[[2]])
 ndvijune = dvijune/(fc_june[[1]] + fc_june[[2]])
-cndvi <- colorRampPalette(c("mintcream", "lightsteelblue2", "mediumorchid3"))(100)
-plot(ndviapril, col=cndvi, main="NDVI of April", cex.main=.8)
-plot(ndvimay, col=cndvi, main="NDVI of May", cex.main=.8) 
-plot(ndvijune, col=cndvi, main="NDVI of June", cex.main=.8)
+
+plot(ndviapril, col=cdvi, main="NDVI of April", cex.main=.8)
+plot(ndvimay, col=cdvi, main="NDVI of May", cex.main=.8) 
+plot(ndvijune, col=cdvi, main="NDVI of June", cex.main=.8)
 stacksent <- c(ndviapril, ndvimay, ndvijune)    
-plot(stacksent, col=cndvi, main= c("NDVI of April", "NDVI of May", "NDVI of June"))
+plot(stacksent, col=cdvi, main= c("NDVI of April", "NDVI of May", "NDVI of June"))
 # The NDVI obviously decreased in the flooded area to 0 or negative values, while they actually increased a bit in other parts of the fields, but this could be just due to a slightly greater cloud coverage in the april imagery. In June there was a 0.5 increase in the NDVI in the former flooded areas, which fluctuated around the 0 value, indicating that the soil there was bare.
 
 pairs(stacksent, main="NDVI pairs plot")       
