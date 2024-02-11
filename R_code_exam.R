@@ -79,7 +79,7 @@ dev.off()
 plotRGB(tc_april, r=1, g=2, b=3)
 plotRGB(tc_april, r=3, g=2, b=1)   # By interchanging the red and the blue bands, the cultivated fields appear blueish, while the water appears yellow-brownish.
 
-# Let's analyze the bands and plot them in different colors palettes
+# Let's analyze the bands and plot them in different color palettes
 
 c2 <- colorRampPalette(c("black", "blue3", "cyan3")) (100)
 c3 <- colorRampPalette(c("black","forestgreen", "palegreen")) (100)
@@ -113,7 +113,7 @@ fc_may_ext <- crop(fc_may, ext)
 
 dev.off() 
 
-# Plot the difference in the NIR band reflectance from April and the May images
+# Plot the difference in the NIR band reflectance from the April and May images
 diff_NIR <- fc_april_ext[[1]] - fc_may_ext[[1]]
 plot(diff_NIR)
 
