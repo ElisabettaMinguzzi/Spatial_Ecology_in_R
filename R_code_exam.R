@@ -200,6 +200,7 @@ pmay                                  # May percentages : fields = 57,9% , water
 pjune <- fjune * 100 / totpixels 
 pjune                                 # June percentages : fields = 43,6% , water = 10,3% , soil/cities = 46,1%
 
+
 # Let's build a barplot representing the frequencies of the classes in the three months 
 class <- c("fields", "water", "soil/cities")
 april <- c(48, 11, 41)
@@ -213,7 +214,7 @@ p1 <- ggplot(tabout, aes(x=class, y=april, fill = class)) +
   geom_bar(stat="identity", color = "black") + 
   ggtitle("Land in April") + xlab("Class") + ylab("Values") +
   geom_text(aes(label=april), vjust=2, color="black", size=4.5) + 
-  scale_fill_brewer(palette="Pastel2") +
+  scale_fill_brewer(palette="Accent") +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold", hjust = 0.5)) + ylim(c(0,60))
 
@@ -221,7 +222,7 @@ p2 <- ggplot(tabout, aes(x=class, y=may, fill = class)) +
   geom_bar(stat="identity", color = "black") + 
   ggtitle("Land in May") + xlab("Class") + ylab("Values") +
   geom_text(aes(label=may), vjust=2, color="black", size=4.5) + 
-  scale_fill_brewer(palette="Pastel2") +
+  scale_fill_brewer(palette="Accent") +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold", hjust = 0.5)) + ylim(c(0,60))
 
@@ -229,7 +230,7 @@ p3 <- ggplot(tabout, aes(x=class, y=june, fill = class)) +
   geom_bar(stat="identity", color = "black") + 
   ggtitle("Land in June") + xlab("Class") + ylab("Values") +
   geom_text(aes(label=june), vjust=2, color="black", size=4.5) + 
-  scale_fill_brewer(palette="Pastel2") +
+  scale_fill_brewer(palette="Accent") +
   theme_minimal() +
   theme(plot.title = element_text(face = "bold", hjust = 0.5)) + ylim(c(0,60))
 
@@ -245,7 +246,7 @@ ggplot(data=df2, aes(x=classes, y=percentages, fill=month)) +
   geom_bar(stat="identity", color = "black")+
   geom_text(aes(label=percentages), vjust=0.5, color="black",
   position = position_stack(vjust =0.5), size=4.5)+
-  scale_fill_brewer(palette="Pastel2") + 
+  scale_fill_brewer(palette="Accent") + 
   ggtitle("Change in land classes") + xlab("Class") + ylab("Values")+
   theme_minimal()+
   theme(plot.title = element_text(face = "bold", hjust = 0.5))
@@ -256,7 +257,7 @@ ggplot(data=df2, aes(x=classes, y=percentages, fill=month)) +
   geom_bar(stat="identity", color = "black", position=position_dodge())+
   geom_text(aes(label=percentages), vjust=1.6, color="black",
   position = position_dodge(0.9), size=4.5)+
-  scale_fill_brewer(palette="Pastel2") + 
+  scale_fill_brewer(palette="Accent") + 
   ggtitle("Change in land classes") + xlab("Class") + ylab("Values")+
   theme_minimal()+
   theme(plot.title = element_text(face = "bold", hjust = 0.5))     
@@ -284,7 +285,7 @@ sd3_june <- focal(fc_june[[1]], matrix(1/9,3,3), fun=sd)
 plot(sd3_june)
 plot(sd3_june, col=clsd, main = "Variability of the land in June (NIR)", cex.main = .8) 
 
-par(mfrow=c(3,1))
+
 plot(sd3_april, col=clsd, main = "Variability of the land in April (NIR)", cex.main = .8) 
 plot(sd3_may, col=clsd, main = "Variability of the land in May (NIR)", cex.main = .8) 
 plot(sd3_june, col=clsd, main = "Variability of the land in June (NIR)", cex.main = .8) 
@@ -292,8 +293,9 @@ plot(sd3_june, col=clsd, main = "Variability of the land in June (NIR)", cex.mai
 
 library(RStoolbox)
 pcaapril <- rasterPCA(fc_april_ext)
-summary(pcaapril$model)     # PC1 represents the 75% of the variability, while PC2 represents the 24%. PC3 contains much lesser information. 
-loadings(pcaapril$model)    # The NIR band contributes for the total of the PC1, the red band is correlated most with PC2, while the green one with PC3. 
+summary(pcaapril$model)                     # PC1 represents the 75% of the variability, while PC2 represents the 24%. PC3 contains much lesser information. 
+loadings(pcaapril$model)                    # The NIR band contributes for the total of the PC1, the red band is correlated most with PC2, while the green one with PC3. 
+
 
 pcmay <- rasterPCA(fc_may_ext)
 summary(pcmay$model)     # PC1 represents the 74% of the variability, while PC2 represents the 25%. 
