@@ -37,7 +37,7 @@ par(mfrow=c(1,2))
 plot(swi_aprilcrop2, col=cl, main="SWI_005 in April")
 plot(swi_maycrop2, col=cl, main="SWI_005 in May")
 
-# Check the difference in Soil Moisture Index 
+# Check the difference in Soil Water Index 
 diff_swi <- swi_maycrop2 - swi_aprilcrop2
 plot(diff_swi, col=cl, main="Variation in SWI")    # From April to May the SWI decreased in value in the province of Ferrara, while the province of Ravenna saw a big increase. 
 
@@ -113,11 +113,11 @@ fc_may_ext <- crop(fc_may, ext)
 
 dev.off() 
 
-# Plot the difference in the NIR band reflectance from the April and May images
+# Plot the difference in the NIR band reflectance from April and May images
 diff_NIR <- fc_april_ext[[1]] - fc_may_ext[[1]]
 plot(diff_NIR)
 
-# Let's do the same with the May and June images
+# Let's do the same with May and June images
 diff_NIR2 <- fc_may_ext[[1]] - fc_june[[1]]
 plot(diff_NIR2)
 
@@ -293,7 +293,7 @@ plot(sd3_june, col=clsd, main = "Variability of the land in June (NIR)", cex.mai
 
 library(RStoolbox)
 pcaapril <- rasterPCA(fc_april_ext)
-summary(pcaapril$model)                     # PC1 represents the 75% of the variability, while PC2 represents the 24%. PC3 contains much lesser information. 
+summary(pcaapril$model)                     # PC1 represents the 75% of the variability, while PC2 represents the 24%. PC3 contains much less information. 
 loadings(pcaapril$model)                    # The NIR band contributes for the total of the PC1, the red band is correlated most with PC2, while the green one with PC3. 
 
 
@@ -328,7 +328,7 @@ plot(sdstack, col=clsd)
 
 # The biggest variability is found along the streets and by cities and at the border between the coast and the sea, where the variability is obviously null. 
 # The three months have similar variability, if it weren't for the values corresponding to the flooded areas in May, where the water made those quite homogeneous, while the variability at the edge between the flooded fields and the rest of the area increased. 
-# Moreover, the difference between the sd calculated on the NIR band and one calculated on the PC1 is not so noticeable. 
+# Moreover, the difference between the sd calculated on the NIR band and the one calculated on the PC1 is not so noticeable. 
 
 
 
