@@ -2,7 +2,7 @@
 
 # First, we're going to import some imagery from Copernicus relative to swi
 
-# We're going to need the packages "terra" and "ncdf4"
+# We're going to need the "terra" package
 
 library(terra)
 library(ggplot2)
