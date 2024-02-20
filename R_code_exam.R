@@ -5,7 +5,6 @@
 # We're going to need the packages "terra" and "ncdf4"
 
 library(terra)
-library(ncdf4)
 library(ggplot2)
 library(imageRy)
 library(patchwork)
